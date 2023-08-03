@@ -1,21 +1,29 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { AppRegistry } from 'react-native';
+import { PaperProvider } from 'react-native-paper';
+import { Provider } from "react-redux";
+import { name as appName } from './app.json';
 
 import Tabs from "./Navigation/tabs";
-// import IdeaScreen from "./app/screens/IdeaScreen";
-// import CreativeScreen from "./app/screens/CreativeScreen";
-// import SocialScreen from "./app/screens/SocialScreen";
-// import SettingsScreen from "./app/screens/SettingsScreen";
+import LogInScreen from "./app/screens/LogInScreen";
+import store from "./redux/store";
 
 
-const Stack = createNativeStackNavigator();
+// const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tabs />
-    </NavigationContainer>
+    <Provider store={store}>
+      <PaperProvider>
+        <LogInScreen />
+      </PaperProvider>
+    </Provider>
+    // <NavigationContainer>
+    //   <Tabs />
+    // </NavigationContainer>
   );
 }
+
+AppRegistry.registerComponent(appName, () => App);

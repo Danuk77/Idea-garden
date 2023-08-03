@@ -1,7 +1,15 @@
 import React from "react";
+import { useFocusEffect } from '@react-navigation/native';
 import { Text, StyleSheet, View } from "react-native";
 
 function SettingsScreen({ navigation }) {
+  // Ensures that the navigation heading on top is hidden
+  useFocusEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  });
+
   return (
     <View style={styles.container}>
       <Text>This is the settings screen.</Text>
