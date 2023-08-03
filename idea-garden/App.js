@@ -2,7 +2,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AppRegistry } from 'react-native';
-import { PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { Provider } from "react-redux";
 import { name as appName } from './app.json';
 
@@ -28,12 +28,25 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseReference = initializeApp(firebaseConfig);
 
+// Setting the theme for the app
+const theme = {
+  ...DefaultTheme,
+  fonts: {
+    regular: {
+      fontFamily: 'Anek Bangla'
+    },
+    medium: {
+      fontFamily: 'Anek Bangla'
+    },
+  },
+};
+
 // const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <Provider store={store}>
-      <PaperProvider>
+      <PaperProvider theme={theme}>
         <LogInScreen />
       </PaperProvider>
     </Provider>
