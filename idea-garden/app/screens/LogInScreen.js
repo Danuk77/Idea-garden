@@ -5,7 +5,7 @@ import { Text, View, StyleSheet } from "react-native";
 function LogInScreen() {
   return (
     <View style={styles.container}>
-      <Text>This is the Log in screen.</Text>
+      <Text>This is the Log in screen. (It is still under construction)</Text>
     </View>
   )
 }
