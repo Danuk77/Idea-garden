@@ -1,7 +1,19 @@
 import React from "react";
 import { TextInput } from "react-native-paper";
 
-function DefaultForm(placeHolderText, marginTopValue, backgroundColour, callbackFunction, stateChangeFunction) {
+
+/**
+ * This component is used for rendering a text input.
+ * It is already styled to be in the idea-garden theme.
+ * @param {String} placeHolderText The text that appears as placeholder before entering anythin.
+ * @param {int} marginTopValue How much margin to add from the top.
+ * @param {Colour} backgroundColour Background colour of the text input.
+ * @param {callbackFunction} callbackFunction The callback function used for changing the state variable of the input.
+ * @param {function} stateChangeFunction The function used for changing the state of the variable.
+ * @param {variable} state The state variable for the input.
+ * @returns 
+ */
+function DefaultForm(placeHolderText, marginTopValue, backgroundColour, callbackFunction, stateChangeFunction, state) {
     return (<TextInput
         mode="flat"
         placeholder={placeHolderText}
@@ -9,11 +21,12 @@ function DefaultForm(placeHolderText, marginTopValue, backgroundColour, callback
         underlineColor="transparent"
         activeUnderlineColor="transparent"
         cursorColor="#1C1D21"
+        value={state}
         theme={{roundness: 10}}
         style={{
-          marginTop: {marginTopValue},
+          marginTop: marginTopValue,
           alignSelf: 'center',
-          width: 300,
+          width: '80%',
           borderRadius: 10,
           backgroundColor: backgroundColour
         }}

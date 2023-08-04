@@ -48,12 +48,12 @@ export default function App() {
   return (
     <Provider store={store}>
       <PaperProvider>
-        <RegisterAccountScreen />
+        {/* <RegisterAccountScreen /> */}
         {/* <LogInScreen /> */}
+        <NavigationContainer>
+          <Tabs />
+        </NavigationContainer>
       </PaperProvider>
     </Provider>
-    // <NavigationContainer>
-    //   <Tabs />
-    // </NavigationContainer>
   );
 }

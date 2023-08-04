@@ -5,6 +5,7 @@ import { TextInput } from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import DefaultForm from "../components/DefaultForm";
+import HiddenForm from "../components/HiddenForm";
 
 function LogInScreen() {
   const [email, setEmail] = React.useState("");
@@ -56,7 +57,7 @@ function LogInScreen() {
           height:100,
           alignSelf: 'center',
           marginTop: 60,
-          right: 20
+          right: 25
         }}
         source={require('../../assets/LogInScreenAssets/tempLogo.png')}
       />
@@ -73,7 +74,7 @@ function LogInScreen() {
       </Text>
 
       {/* Email input prompt */}
-      {DefaultForm("example@server.com", 10, '#F1E3E4', handleTextChange, setEmail)}
+      {DefaultForm("example@server.com", 10, '#F1E3E4', handleTextChange, setEmail, email)}
 
       {/* Password text */}
       <Text style={
@@ -86,25 +87,7 @@ function LogInScreen() {
       </Text>
 
       {/* Password input prompt */}
-      <TextInput
-        mode="flat"
-        placeholder="******************"
-        placeholderTextColor="rgba(28, 29, 33, 0.3)"
-        underlineColor="transparent"
-        activeUnderlineColor="transparent"
-        cursorColor="#1C1D21"
-        secureTextEntry = {hiddenPassword}
-        theme={{roundness: 10}}
-        style={{
-          marginTop: 10,
-          width: 300,
-          backgroundColor: '#F1E3E4',
-          alignSelf: 'center',
-          borderRadius: 10
-        }}
-        onChangeText = {(newText) => {handleTextChange(setPassword, newText)}}
-        right={<TextInput.Icon icon= {hiddenPassword ? "eye" : 'eye-off'} onPress={() => {setVisible(!hiddenPassword)}}/>}
-      />
+      {HiddenForm(10, '#F1E3E4', handleTextChange, setPassword, password, setVisible, hiddenPassword)}
 
       {/* Forgot password */}
       <View style={{alignSelf: 'flex-end', right: 45}}>
@@ -181,6 +164,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#CCBCBC',
+    fontFamily: 'ideaGardenFont'
   },
   
   textColor: {
