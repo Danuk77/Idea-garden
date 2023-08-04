@@ -4,6 +4,8 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { TextInput } from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
+import DefaultForm from "../components/DefaultForm";
+
 function LogInScreen() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -71,23 +73,7 @@ function LogInScreen() {
       </Text>
 
       {/* Email input prompt */}
-      <TextInput
-        mode="flat"
-        placeholder="example@server.com"
-        placeholderTextColor="rgba(28, 29, 33, 0.3)"
-        underlineColor="transparent"
-        activeUnderlineColor="transparent"
-        cursorColor="#1C1D21"
-        theme={{roundness: 10}}
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          width: 300,
-          borderRadius: 10,
-          backgroundColor: '#F1E3E4'
-        }}
-        onChangeText = {(newText) => {handleTextChange(setEmail, newText)}}
-      />
+      {DefaultForm("example@server.com", 10, '#F1E3E4', handleTextChange, setEmail)}
 
       {/* Password text */}
       <Text style={

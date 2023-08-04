@@ -8,10 +8,13 @@ import { name as appName } from './app.json';
 
 // Firebase imports
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 
+// Screens
 import Tabs from "./Navigation/tabs";
 import LogInScreen from "./app/screens/LogInScreen";
+import RegisterAccountScreen from "./app/screens/RegisterAccountScreen";
+
+// Redux store
 import store from "./redux/store";
 
 // Firebase configuration information
@@ -47,7 +50,8 @@ export default function App() {
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
-        <LogInScreen />
+        <RegisterAccountScreen />
+        {/* <LogInScreen /> */}
       </PaperProvider>
     </Provider>
     // <NavigationContainer>
