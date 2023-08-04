@@ -1,10 +1,10 @@
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AppRegistry } from 'react-native';
+import { Text } from 'react-native';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { Provider } from "react-redux";
-import { name as appName } from './app.json';
+import { useFonts } from 'expo-font';
 
 // Firebase imports
 import { initializeApp } from "firebase/app";
@@ -31,25 +31,23 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseReference = initializeApp(firebaseConfig);
 
-// Setting the theme for the app
-const theme = {
-  ...DefaultTheme,
-  fonts: {
-    regular: {
-      fontFamily: 'Anek Bangla'
-    },
-    medium: {
-      fontFamily: 'Anek Bangla'
-    },
-  },
-};
-
 // const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  // Set up the font for the app
+  // Code for importing font is extracted from expo-font tutorial
+  const [fontsLoaded] = useFonts({
+    'ideaGardenFont': require('./assets/Fonts/anek.ttf'),
+  });
+
+  if(!fontsLoaded){
+    return (<Text>Loading...</Text>);
+  }
+
   return (
     <Provider store={store}>
-      <PaperProvider theme={theme}>
+      <PaperProvider>
         <RegisterAccountScreen />
         {/* <LogInScreen /> */}
       </PaperProvider>

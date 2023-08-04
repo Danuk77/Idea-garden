@@ -9,7 +9,11 @@ function RegisterAccountScreen() {
         <Text
         style=
         {{
-            fontSize: 48
+            fontSize: 48,
+            color: "#1C1D21",
+            textAlign: 'center',
+            marginTop: 48,
+            fontFamily: 'ideaGardenFont'
         }}
         >
             Register account
