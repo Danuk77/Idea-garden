@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { TextInput } from 'react-native-paper';
-import { faNetworkWired } from "@fortawesome/free-solid-svg-icons";
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 function LogInScreen() {
   const [email, setEmail] = React.useState("");
@@ -17,88 +17,175 @@ function LogInScreen() {
   // TODO
   // Callback function when the user has clicked forgot password
   const handleForgotPassword = () => {
-    console.log("Forgot the password")
+    alert("Forgot the password");
   }
 
   // TODO
   // Callback function when the user has finished entering the details and clicked on the log in
   const handleLogIn = () => {
-    console.log("The user has logged in")
+    alert("The user has logged in");
   }
 
   // TODO
   // Callback function when the Facebook log in is clicked
   const handleFacebookLogIn = () => {
-    console.log("Logging in with Facebook")
+    alert("Logging in with Facebook");
   }
 
   // TODO
   // Callback function when the Google log in is clicked
   const handleGoogleLogIn = () => {
-    console.log("Logging in with Google")
+    alert("Logging in with Google");
+  }
+
+  //TODO
+  // Callback function when the user has clicked sign up
+  const handleSignUp = () => {
+    alert("The user wants to make an account");
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
 
       {/* Idea garden logo */}
-      <Image source={require('../../assets/LogInScreenAssets/tempLogo.png')}/>
+      <Image 
+        style={{
+          width:200,
+          height:100,
+          alignSelf: 'center',
+          marginTop: 60,
+          right: 20
+        }}
+        source={require('../../assets/LogInScreenAssets/tempLogo.png')}
+      />
 
       {/* Email text */}
-      <Text style={styles.textColor}>Email</Text>
+      <Text style={
+        [styles.textColor,
+           {
+            left: 50,
+            marginTop: 20
+            }]
+        }>
+          Email
+      </Text>
 
       {/* Email input prompt */}
       <TextInput
-      mode="flat"
-      onChangeText = {(newText) => {handleTextChange(setEmail, newText)}}
+        mode="flat"
+        placeholder="example@server.com"
+        placeholderTextColor="rgba(28, 29, 33, 0.3)"
+        underlineColor="transparent"
+        activeUnderlineColor="transparent"
+        cursorColor="#1C1D21"
+        theme={{roundness: 10}}
+        style={{
+          marginTop: 10,
+          alignSelf: 'center',
+          width: 300,
+          borderRadius: 10,
+          backgroundColor: '#F1E3E4'
+        }}
+        onChangeText = {(newText) => {handleTextChange(setEmail, newText)}}
       />
 
       {/* Password text */}
-      <Text style={styles.textColor}>Password</Text>
-
+      <Text style={
+        [styles.textColor,
+          {
+            left: 50,
+            marginTop: 10
+          }]}>
+            Password
+      </Text>
 
       {/* Password input prompt */}
       <TextInput
-      mode="flat"
-      secureTextEntry = {hiddenPassword}
-      onChangeText = {(newText) => {handleTextChange(setPassword, newText)}}
-      right={<TextInput.Icon icon= {hiddenPassword ? "eye" : 'eye-off'} onPress={() => {setVisible(!hiddenPassword)}}/>}
+        mode="flat"
+        placeholder="******************"
+        placeholderTextColor="rgba(28, 29, 33, 0.3)"
+        underlineColor="transparent"
+        activeUnderlineColor="transparent"
+        cursorColor="#1C1D21"
+        secureTextEntry = {hiddenPassword}
+        theme={{roundness: 10}}
+        style={{
+          marginTop: 10,
+          width: 300,
+          backgroundColor: '#F1E3E4',
+          alignSelf: 'center',
+          borderRadius: 10
+        }}
+        onChangeText = {(newText) => {handleTextChange(setPassword, newText)}}
+        right={<TextInput.Icon icon= {hiddenPassword ? "eye" : 'eye-off'} onPress={() => {setVisible(!hiddenPassword)}}/>}
       />
 
       {/* Forgot password */}
-      <TouchableOpacity onPress={handleForgotPassword}>
-        <Text style={{color:'#916D97', fontSize: 20}}>Forgot password?</Text>
-      </TouchableOpacity>
+      <View style={{alignSelf: 'flex-end', right: 45}}>
+        <TouchableOpacity onPress={handleForgotPassword}>
+          <Text style={{
+            marginTop : 15,
+            color:'#916D97', 
+            fontSize: 20,
+            }}>
+              Forgot password?
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Log in button */}
-      <TouchableOpacity onPress={handleLogIn}>
-        <Image 
-          source={require('../../assets/LogInScreenAssets/SubmitSignIn.png')}
-        />
-      </TouchableOpacity>
+      <View style={{alignSelf: 'center', width: 150, height: 50, marginTop: 30}}>
+        <TouchableOpacity onPress={handleLogIn}>
+          <Image 
+            source={require('../../assets/LogInScreenAssets/SubmitSignIn.png')}
+            resizeMode="contain"
+            style={{
+              width:'100%',
+              height: '100%',
+            }}
+          />
+        </TouchableOpacity>
+      </View>
 
       {/* Alternate log in text */}
-      <Text style={styles.textColor}>Or continue with</Text>
+      <Text style={[
+        styles.textColor,
+        {textAlign: 'center',
+        marginTop: 15}
+        ]}>
+        Or continue with
+      </Text>
 
-      {/* Alternate log in Facebook button */}
-      <TouchableOpacity onPress={handleFacebookLogIn}>
-        <Image 
-          source={require('../../assets/LogInScreenAssets/facebook.png')}
-        />
-      </TouchableOpacity>
+      {/* Alternate log in options */}
+      <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 20}}>
+        {/* Alternate log in Facebook button */}
+        <TouchableOpacity onPress={handleFacebookLogIn} style={{marginHorizontal: 15}}>
+          <Image 
+            resizeMode="contain"
+            style={{width:60,height:60}}
+            source={require('../../assets/LogInScreenAssets/facebook.png')}
+          />
+        </TouchableOpacity>
 
-      {/* Alternate log in Google button */}
-      <TouchableOpacity onPress={handleGoogleLogIn}>
-        <Image 
-          source={require('../../assets/LogInScreenAssets/google.png')}
-        />
-      </TouchableOpacity>
+        {/* Alternate log in Google button */}
+        <TouchableOpacity onPress={handleGoogleLogIn} style={{marginHorizontal: 15}}>
+          <Image
+            resizeMode="contain"
+            style={{width:60,height:60}}
+            source={require('../../assets/LogInScreenAssets/google.png')}
+          />
+        </TouchableOpacity>
+      </View>
 
       {/* Sign up text */}
-      <Text style={styles.textColor}>Dont have an account?</Text>
-      <Text style={{color:'#916D97', fontSize: 20}}>Sign up</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 30}}>
+        <Text style={styles.textColor}>Dont have an account?</Text>
+        <TouchableOpacity onPress={handleSignUp}>
+          <Text style={{color:'#916D97', fontSize: 20}}>Sign up</Text>
+        </TouchableOpacity>
+      </View>
 
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -107,8 +194,6 @@ export default LogInScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#CCBCBC',
   },
   

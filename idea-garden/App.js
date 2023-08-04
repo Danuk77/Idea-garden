@@ -55,5 +55,3 @@ export default function App() {
     // </NavigationContainer>
   );
 }
-
-AppRegistry.registerComponent(appName, () => App);
