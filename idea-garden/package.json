@@ -14,11 +14,14 @@
     "@fortawesome/react-native-fontawesome": "^0.3.0",
     "@react-native-firebase/analytics": "^18.3.0",
     "@react-native-firebase/app": "^18.3.0",
+    "@react-native-firebase/firestore": "^18.3.0",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@reduxjs/toolkit": "^1.9.5",
     "expo": "^49.0.6",
+    "expo-font": "~11.4.0",
+    "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "firebase": "^10.1.0",
     "react": "18.2.0",
@@ -28,9 +31,7 @@
     "react-native-svg": "13.9.0",
     "react-redux": "^8.1.2",
     "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2",
-    "expo-font": "~11.4.0",
-    "expo-splash-screen": "~0.20.5"
+    "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

@@ -9,6 +9,7 @@ import { useFonts } from 'expo-font';
 // Firebase imports
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "./firebaseConfig";
+import { getFirestore } from "firebase/firestore";
 
 // Screens
 import Tabs from "./Navigation/tabs";
@@ -22,6 +23,7 @@ import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
 
 // Initialize Firebase
 const firebaseReference = initializeApp(firebaseConfig);
+const db = getFirestore();
 
 // const Stack = createNativeStackNavigator();
 
