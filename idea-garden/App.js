@@ -16,6 +16,7 @@ import RegisterAccountScreen from "./app/screens/RegisterAccountScreen";
 
 // Redux store
 import store from "./redux/store";
+import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
 
 // Firebase configuration information
 const firebaseConfig = {
@@ -48,12 +49,13 @@ export default function App() {
   return (
     <Provider store={store}>
       <PaperProvider>
+        <ForgotPasswordScreen/>
         {/* <RegisterAccountScreen /> */}
         {/* <LogInScreen /> */}
-        <NavigationContainer>
+        {/* <NavigationContainer>
           <Tabs />
-        </NavigationContainer>
+        </NavigationContainer> */}
       </PaperProvider>
     </Provider>
-  );
+  ); 
 }
