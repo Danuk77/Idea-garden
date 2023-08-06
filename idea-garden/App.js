@@ -8,6 +8,7 @@ import { useFonts } from 'expo-font';
 
 // Firebase imports
 import { initializeApp } from "firebase/app";
+import firebaseConfig from "./firebaseConfig";
 
 // Screens
 import Tabs from "./Navigation/tabs";
@@ -18,16 +19,6 @@ import RegisterAccountScreen from "./app/screens/RegisterAccountScreen";
 import store from "./redux/store";
 import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
 
-// Firebase configuration information
-const firebaseConfig = {
-  apiKey: "AIzaSyAomQixQ9gGMNCYeYoeo66kFWYWrQfEN2g",
-  authDomain: "idea-garden-a35f6.firebaseapp.com",
-  projectId: "idea-garden-a35f6",
-  storageBucket: "idea-garden-a35f6.appspot.com",
-  messagingSenderId: "615250599761",
-  appId: "1:615250599761:web:40bd4571838df549197d70",
-  measurementId: "G-3QF8JBH91H"
-};
 
 // Initialize Firebase
 const firebaseReference = initializeApp(firebaseConfig);
@@ -49,8 +40,8 @@ export default function App() {
   return (
     <Provider store={store}>
       <PaperProvider>
-        <ForgotPasswordScreen/>
-        {/* <RegisterAccountScreen /> */}
+        {/* <ForgotPasswordScreen/> */}
+        <RegisterAccountScreen />
         {/* <LogInScreen /> */}
         {/* <NavigationContainer>
           <Tabs />
