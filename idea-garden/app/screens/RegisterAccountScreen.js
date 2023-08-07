@@ -3,6 +3,10 @@ import { Text, View, StyleSheet, ScrollView, TouchableOpacity, Image } from "rea
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { useState } from "react";
 
+import { getFunctions, httpsCallable } from "firebase/functions";
+import { collection, addDoc } from "firebase/firestore"; 
+import { db } from "../../firebase/initialisaiton";
+
 import DefaultForm from "../components/DefaultForm";
 import HiddenForm from "../components/HiddenForm";
 
@@ -16,6 +20,8 @@ function RegisterAccountScreen() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordVisibility, setVisibility] = useState(true);
     const [confirmPasswordVisibility, setConfirmPasswordVisibility] = useState(true);
+
+    const functions = getFunctions();
 
     /**
      * Generic callback function to handle text UI changes
@@ -34,8 +40,19 @@ function RegisterAccountScreen() {
 
     // TODO
     // Function called when the user has clicked the register button
-    const handleRegister = () => {
-        alert("Register an account with the system");
+    const handleRegister = async () => {
+        try {
+            const docRef = await addDoc(collection(db, "users"), {
+              first: "Ada",
+              last: "Lovelace",
+              born: 1815
+            });
+            console.log("Document written with ID: ", docRef.id);
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+        // const testingFunction = httpsCallable(functions,'testFirebase');
+        // testingFunction().then(response => console.log(response)).catch(err => console.log(err))
     }
 
     return (

@@ -7,23 +7,16 @@ import { Provider } from "react-redux";
 import { useFonts } from 'expo-font';
 
 // Firebase imports
-import { initializeApp } from "firebase/app";
-import firebaseConfig from "./firebaseConfig";
-import { getFirestore } from "firebase/firestore";
+import functions from "./firebase/initialisaiton";
 
 // Screens
 import Tabs from "./Navigation/tabs";
 import LogInScreen from "./app/screens/LogInScreen";
 import RegisterAccountScreen from "./app/screens/RegisterAccountScreen";
+import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
 
 // Redux store
 import store from "./redux/store";
-import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
-
-
-// Initialize Firebase
-const firebaseReference = initializeApp(firebaseConfig);
-const db = getFirestore();
 
 // const Stack = createNativeStackNavigator();
 
@@ -37,7 +30,7 @@ export default function App() {
 
   if(!fontsLoaded){
     return (<Text>Loading...</Text>);
-  }
+  }  
 
   return (
     <Provider store={store}>

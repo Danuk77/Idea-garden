@@ -17,4 +17,4 @@ web-build/
 .metro-health-check*
 
 # Firebase configuration file
-firebaseConfig.js
+initialisation.js
