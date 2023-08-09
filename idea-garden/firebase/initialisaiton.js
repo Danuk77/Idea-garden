@@ -1,6 +1,7 @@
-import { getFunctions, connectFunctionsEmulator } from 'firebase/functions';
 import { initializeApp } from "firebase/app";
+import { getFunctions, connectFunctionsEmulator } from 'firebase/functions';
 import { getFirestore, connectFirestoreEmulator  } from "firebase/firestore"; 
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 
 // Firebase configuration information
 const firebaseConfig = {
@@ -15,14 +16,17 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const firebaseReference = initializeApp(firebaseConfig);
-// const functions = getFunctions(firebaseReference, "us-central1");
+const functions = getFunctions(firebaseReference);
 const db = getFirestore(firebaseReference);
+const auth = getAuth(firebaseReference);
 
 // If we are running in development mode use the emulator instead
+// Ensure the emulator is running before running npx expo start
 if (__DEV__){
-    // connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+    connectFunctionsEmulator(functions, '127.0.0.1', 5001);
     connectFirestoreEmulator(db, '127.0.0.1', 8080);
+    connectAuthEmulator(auth, "http://127.0.0.1:9099");
 }
 
 
-export { db};
+export { db, functions, auth };

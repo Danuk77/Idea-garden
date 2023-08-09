@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { Text, View, StyleSheet, ScrollView, TouchableOpacity, Image } from "react-native";
+import { TextInput } from "react-native-paper";
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { useState } from "react";
 
-import { getFunctions, httpsCallable } from "firebase/functions";
-import { collection, addDoc } from "firebase/firestore"; 
-import { db } from "../../firebase/initialisaiton";
+// Libraries used for checking fields entered by the user
+import validator from "validator";
+import schema from "../other/passwordValidation";
+
+// Firebase imports
+import { httpsCallable } from "firebase/functions";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { functions, auth } from "../../firebase/initialisaiton";
 
 import DefaultForm from "../components/DefaultForm";
 import HiddenForm from "../components/HiddenForm";
+import { useFocusEffect } from "@react-navigation/native";
 
 function RegisterAccountScreen() {
     
@@ -20,8 +27,7 @@ function RegisterAccountScreen() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordVisibility, setVisibility] = useState(true);
     const [confirmPasswordVisibility, setConfirmPasswordVisibility] = useState(true);
-
-    const functions = getFunctions();
+    
 
     /**
      * Generic callback function to handle text UI changes
@@ -38,22 +44,158 @@ function RegisterAccountScreen() {
         alert("Returning back to the log in screen");
     }
 
-    // TODO
-    // Function called when the user has clicked the register button
-    const handleRegister = async () => {
-        try {
-            const docRef = await addDoc(collection(db, "users"), {
-              first: "Ada",
-              last: "Lovelace",
-              born: 1815
-            });
-            console.log("Document written with ID: ", docRef.id);
-          } catch (e) {
-            console.error("Error adding document: ", e);
-          }
-        // const testingFunction = httpsCallable(functions,'testFirebase');
-        // testingFunction().then(response => console.log(response)).catch(err => console.log(err))
+    /**
+     * Validates the user credentials and returns an object ({Status: True} or {Status: False})
+     * @param {JSON object} userCredentials Contains the information the user has entered on the register account page
+     */
+    const handleValidationCheck = async (userCredentials) => {
+
+        // Check if all fields have been entered
+        const missingList = []
+        for(key in userCredentials){
+            if(userCredentials[key] === ""){
+                missingList.push(key);
+            }
+        }
+
+        // Return an object with all the fields that are still empty
+        if(missingList.length != 0){
+            return {
+                status:false,
+                field: "Missing",
+                list: missingList,
+            }
+        }
+
+        // Username pattern regular expression (A potential improvement is to check for curse language in the usernames)
+        const usernamePattern = /^[a-zA-Z0-9_-]{3,16}$/;
+
+        // Validate the email criteria
+        if(!validator.isEmail(userCredentials.email)){
+            return {
+                status: false,
+                field: "email",
+                error: "The email format is incorrect"
+            }
+        }
+
+        // Validate the confirmation email
+        // Check if they are the same
+        if(userCredentials.email.toLowerCase() !== userCredentials.confirmEmail.toLowerCase()){
+            return {
+                status: false,
+                field: "confirm email",
+                error: "The confirm email does not match with the other email."
+            }
+        }
+
+        // Validate the password
+        // Check for the strength of the password
+        const strength = schema.validate(userCredentials.password);
+        if(!strength){
+            return {
+                status: false,
+                field: "password",
+                // Return information about why the password validation failed
+                error: schema.validate(userCredentials.password, {details:true})[0].message
+            }
+        }
+
+        // Check if the passwords match
+        if(userCredentials.password != userCredentials.confirmPassword){
+            return {
+                stats: false,
+                field: "Confirm password",
+                error: "The password does not match with the previously entered password."
+            }
+        }
+        
+
+        // Validate the username
+        // Check the length
+        if(userCredentials.name.length < 3){
+            return{
+                status:false,
+                field: "Username",
+                error: "The username must be atleast 3 characters."
+            }
+        }else if(userCredentials.name.length > 16){
+            return{
+                status:false,
+                field: "Username",
+                error: "The username must be less than 16 characters long."
+            }
+        }
+
+        // Check if the username is of the correct format through comparing with the regular expression stored inside usernamePattern
+        if(!usernamePattern.test(userCredentials.name)){
+            return{
+                status:false,
+                field: "Username",
+                error: "The username entered is invalid please enter a different username."
+            }
+        }
+
+        // Check with the backend whether the username already exist (cloud function)
+        const userNameValidity = httpsCallable(functions, 'checkUsernameValid');
+
+        try{
+            const validity = await userNameValidity({name: userCredentials.name});
+            if(!validity.data.status){
+                return {
+                    status: false,
+                    field: "username",
+                    error:validity.data.error
+                }
+            }
+
+             // All validations passed, ready to create a new account
+            return {
+                status: true
+            }
+        }catch(err){
+            alert("There was an error. Please contact support");
+        }
     }
+
+    // Function called when the user has clicked the register button
+    const handleRegister = useCallback(async () => {
+        try {
+            const isValid = await handleValidationCheck({
+                name: username,
+                email: email,
+                confirmEmail: emailConfirmation,
+                password: password,
+                confirmPassword: confirmPassword
+            });
+        
+            if (!isValid.status) {
+                // Handle validation error
+                alert(isValid.error);
+                return;
+            }
+        
+            const updateFireStoreUsername = httpsCallable(functions, 'updateFireStoreUsername');
+        
+            // Register the users' account with the system
+            const response = await createUserWithEmailAndPassword(auth, email, password);
+            const user = response.user;
+        
+            // Update the username in Firestore
+            const updateResponse = await updateFireStoreUsername({ name: username, uid: user.uid });
+        
+            if (updateResponse.data.status) {
+                alert("Account creation successful.");
+            } else {
+                alert(updateResponse.data.error);
+            }
+
+          } catch (error) {
+                console.error(error);
+          }
+
+    },[username, email, emailConfirmation, password, confirmPassword])
+
 
     return (
         <SafeAreaView style={styles.container}>

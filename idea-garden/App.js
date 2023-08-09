@@ -10,10 +10,10 @@ import { useFonts } from 'expo-font';
 import functions from "./firebase/initialisaiton";
 
 // Screens
-import Tabs from "./Navigation/tabs";
-import LogInScreen from "./app/screens/LogInScreen";
+// import Tabs from "./Navigation/tabs";
+// import LogInScreen from "./app/screens/LogInScreen";
 import RegisterAccountScreen from "./app/screens/RegisterAccountScreen";
-import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
+// import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
 
 // Redux store
 import store from "./redux/store";

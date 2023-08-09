@@ -1,5 +1,6 @@
 import React from "react";
 import { TextInput } from "react-native-paper";
+import { Platform } from "react-native";
 
 
 /**
@@ -19,7 +20,7 @@ function DefaultForm(placeHolderText, marginTopValue, backgroundColour, callback
         placeholder={placeHolderText}
         placeholderTextColor="rgba(28, 29, 33, 0.3)"
         underlineColor="transparent"
-        activeUnderlineColor="transparent"
+        activeUnderlineColor= "transparent"
         cursorColor="#1C1D21"
         value={state}
         theme={{roundness: 10}}
