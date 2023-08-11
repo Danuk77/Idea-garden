@@ -10,10 +10,10 @@ import { useFonts } from 'expo-font';
 import functions from "./firebase/initialisaiton";
 
 // Screens
-// import Tabs from "./Navigation/tabs";
-// import LogInScreen from "./app/screens/LogInScreen";
+import Tabs from "./Navigation/tabs";
+import LogInScreen from "./app/screens/LogInScreen";
 import RegisterAccountScreen from "./app/screens/RegisterAccountScreen";
-// import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
+import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
 
 // Redux store
 import store from "./redux/store";
@@ -30,14 +30,13 @@ export default function App() {
 
   if(!fontsLoaded){
     return (<Text>Loading...</Text>);
-  }  
-
+  }
   return (
     <Provider store={store}>
       <PaperProvider>
         {/* <ForgotPasswordScreen/> */}
-        <RegisterAccountScreen />
-        {/* <LogInScreen /> */}
+        {/* <RegisterAccountScreen /> */}
+        <LogInScreen />
         {/* <NavigationContainer>
           <Tabs />
         </NavigationContainer> */}

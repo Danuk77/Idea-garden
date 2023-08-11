@@ -4,6 +4,9 @@ import { TextInput } from "react-native-paper";
 import {SafeAreaView} from 'react-native-safe-area-context';
 import { useState } from "react";
 
+// Redux imports
+import { useDispatch } from "react-redux";
+
 // Libraries used for checking fields entered by the user
 import validator from "validator";
 import schema from "../other/passwordValidation";
@@ -13,9 +16,10 @@ import { httpsCallable } from "firebase/functions";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { functions, auth } from "../../firebase/initialisaiton";
 
+// Reusable components imports
 import DefaultForm from "../components/DefaultForm";
 import HiddenForm from "../components/HiddenForm";
-import { useFocusEffect } from "@react-navigation/native";
+import { logIN } from "../../redux/actions";
 
 function RegisterAccountScreen() {
     
@@ -27,6 +31,9 @@ function RegisterAccountScreen() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordVisibility, setVisibility] = useState(true);
     const [confirmPasswordVisibility, setConfirmPasswordVisibility] = useState(true);
+
+    // Reference to redux dispatch
+    const dispatch = useDispatch();
     
 
     /**
@@ -183,13 +190,21 @@ function RegisterAccountScreen() {
         
             // Update the username in Firestore
             const updateResponse = await updateFireStoreUsername({ name: username, uid: user.uid });
-        
+
+            // Get the username and the access token
+            // const getUsernameInfo = httpsCallable(functions, 'getUsername');
+            // const username = await getUsernameInfo({uid: response.user.uid});
+            const accessToken = response.user.stsTokenManager.accessToken;
+
             if (updateResponse.data.status) {
+                // Update the redux store with the logged in users credentials
+                dispatch(logIN({userToken: accessToken,
+                                username: username
+                                }));
                 alert("Account creation successful.");
             } else {
                 alert(updateResponse.data.error);
             }
-
           } catch (error) {
                 console.error(error);
           }

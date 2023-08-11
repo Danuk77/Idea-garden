@@ -1,16 +1,29 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { TextInput } from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
+// Reusable components
 import DefaultForm from "../components/DefaultForm";
 import HiddenForm from "../components/HiddenForm";
+
+// Firebase imports
+import { auth } from "../../firebase/initialisaiton";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { httpsCallable } from "firebase/functions";
+import { functions } from "../../firebase/initialisaiton";
+
+// Redux imports
+import { useDispatch } from "react-redux";
+import { logIN } from "../../redux/actions";
 
 function LogInScreen() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [hiddenPassword, setVisible] = React.useState(true);
+
+  const dispatch = useDispatch();
 
   // General callback function used for updating the email and password fields
   const handleTextChange = (stateChange, newText) => {
@@ -23,11 +36,32 @@ function LogInScreen() {
     alert("Forgot the password");
   }
 
-  // TODO
   // Callback function when the user has finished entering the details and clicked on the log in
-  const handleLogIn = () => {
-    alert("The user has logged in");
-  }
+  const handleLogIn = useCallback(async () => {
+    try{
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      // Signed in 
+      const user = userCredential.user;
+      // Get the username and the access token
+      const getUsernameInfo = httpsCallable(functions, 'getUsername');
+      const username = await getUsernameInfo({uid: user.uid});
+      const accessToken = user.stsTokenManager.accessToken;
+      
+      // Update the redux store
+      // Update the redux store with the logged in users credentials
+      dispatch(logIN({userToken: accessToken,
+                      username: username.data
+                    }));
+      alert("Successful login");
+
+    }catch(error){
+      if(error.code === 'auth/wrong-password'){
+        alert("The password is incorrect, please try again.");
+      }else{
+        alert("Something went wrong!");
+      }
+    }
+  },[email, password]);
 
   // TODO
   // Callback function when the Facebook log in is clicked
@@ -35,10 +69,17 @@ function LogInScreen() {
     alert("Logging in with Facebook");
   }
 
-  // TODO
   // Callback function when the Google log in is clicked
-  const handleGoogleLogIn = () => {
-    alert("Logging in with Google");
+  // Code below is extracted from the Google documentation
+  const handleGoogleLogIn = async () => {
+    try{
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+      alert("Succesfully loaded with Google");
+    }catch(error){
+      console.log(error);
+    }
   }
 
   //TODO
