@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from "react";
-import { useFocusEffect } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { TextInput } from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 // Reusable components
@@ -18,7 +17,7 @@ import { functions } from "../../firebase/initialisaiton";
 import { useDispatch } from "react-redux";
 import { logIN } from "../../redux/actions";
 
-function LogInScreen() {
+function LogInScreen({navigation}) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [hiddenPassword, setVisible] = React.useState(true);
@@ -30,10 +29,9 @@ function LogInScreen() {
     stateChange(newText);
   };
 
-  // TODO
   // Callback function when the user has clicked forgot password
   const handleForgotPassword = () => {
-    alert("Forgot the password");
+    navigation.push("ForgotPassword");
   }
 
   // Callback function when the user has finished entering the details and clicked on the log in
@@ -52,7 +50,9 @@ function LogInScreen() {
       dispatch(logIN({userToken: accessToken,
                       username: username.data
                     }));
-      alert("Successful login");
+      
+      // Upon successful log in, go to the main page with the user's content
+      navigation.navigate("Main");
 
     }catch(error){
       if(error.code === 'auth/wrong-password'){
@@ -63,29 +63,22 @@ function LogInScreen() {
     }
   },[email, password]);
 
-  // TODO
+  // TODO (Eject from expo and implement this)
   // Callback function when the Facebook log in is clicked
   const handleFacebookLogIn = () => {
     alert("Logging in with Facebook");
   }
 
+  // TODO (Eject from expo and implement this)
   // Callback function when the Google log in is clicked
-  // Code below is extracted from the Google documentation
   const handleGoogleLogIn = async () => {
-    try{
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
-      alert("Succesfully loaded with Google");
-    }catch(error){
-      console.log(error);
-    }
+    alert("Logging in with Google");
   }
 
-  //TODO
   // Callback function when the user has clicked sign up
   const handleSignUp = () => {
-    alert("The user wants to make an account");
+    // Go to the register account in page
+    navigation.navigate("Register");
   }
 
   return (

@@ -7,7 +7,7 @@ import DefaultForm from "../components/DefaultForm";
 import HiddenForm from "../components/HiddenForm";
 import BackButton from "../components/BackButton";
 
-function ForgotPasswordScreen() {
+function ForgotPasswordScreen({navigation}) {
 
     // State to store the email of the user
     const [email, setEmail] = useState(""); 
@@ -21,13 +21,11 @@ function ForgotPasswordScreen() {
         stateChange(newText);
     }
 
-    // TODO
     // Callback function used for handling the back button press
     const handleBackButtonPress = () => {
-        alert("Pressed back button");
+        navigation.goBack();
     }
 
-    // TODO
     // Callback function used for handling proceeding to the next page after entering the email
     const handleContinuePress = () => {
         alert("Successfully entered the email");

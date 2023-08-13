@@ -36,7 +36,8 @@
     "redux-thunk": "^2.4.2",
     "validate.js": "^0.13.1",
     "validator": "^13.11.0",
-    "zxcvbn": "^4.4.2"
+    "zxcvbn": "^4.4.2",
+    "react-native-screens": "~3.22.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

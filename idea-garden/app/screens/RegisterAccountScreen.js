@@ -21,7 +21,7 @@ import DefaultForm from "../components/DefaultForm";
 import HiddenForm from "../components/HiddenForm";
 import { logIN } from "../../redux/actions";
 
-function RegisterAccountScreen() {
+function RegisterAccountScreen({navigation}) {
     
     // State variables used for the Register screen
     const [username, setUsername] = useState("");
@@ -45,10 +45,9 @@ function RegisterAccountScreen() {
         stateChange(newText);
     }
 
-    // TODO
     // Function called to return back to the log in screen
     const handleReturnToLogIn = () => {
-        alert("Returning back to the log in screen");
+        navigation.navigate("LogIn");
     }
 
     /**
@@ -201,7 +200,9 @@ function RegisterAccountScreen() {
                 dispatch(logIN({userToken: accessToken,
                                 username: username
                                 }));
-                alert("Account creation successful.");
+
+                // Upon successful registration take the user to the main screen
+                navigation.navigate("Main");
             } else {
                 alert(updateResponse.data.error);
             }

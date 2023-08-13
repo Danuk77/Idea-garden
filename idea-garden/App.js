@@ -18,7 +18,7 @@ import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
 // Redux store
 import store from "./redux/store";
 
-// const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
 
@@ -34,12 +34,17 @@ export default function App() {
   return (
     <Provider store={store}>
       <PaperProvider>
-        {/* <ForgotPasswordScreen/> */}
-        {/* <RegisterAccountScreen /> */}
-        <LogInScreen />
-        {/* <NavigationContainer>
-          <Tabs />
-        </NavigationContainer> */}
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="LogIn"
+            screenOptions={{
+              headerShown: false
+            }}>
+            <Stack.Screen name="LogIn" component={LogInScreen} />
+            <Stack.Screen name="Register" component={RegisterAccountScreen} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+            <Stack.Screen name="Main" component={Tabs}/>
+          </Stack.Navigator>
+        </NavigationContainer>
       </PaperProvider>
     </Provider>
   ); 
