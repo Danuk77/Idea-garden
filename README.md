@@ -1,2 +1,2 @@
 # Ideas-garden
-App to keep track of ideas and generate new ideas.
+A cross-platform mobile for iOS and Android. It serves as a platform for capturing{,} organising{,} and sharing ideas in a structured manner. The application facilitates concise and effective note-taking of ideas{,} promoting clarity and ease of communication. Additionally the platform provides functionality to use AI features to generate new ideas through using the user's keywords and short prompts. Users can also explore ideas from other users by querying the application for concepts related to specific keywords. The primary goal of the platform is to enhance the users' creativity through sharing and structured notation.
